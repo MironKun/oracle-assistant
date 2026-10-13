@@ -1,1 +1,55 @@
-(()=>{const $=s=>document.querySelector(s),KEY="oracle_v1";let state={messages:[],notes:[]},editing=null;try{state={...state,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch{}const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{toast("Не удалось сохранить данные")}};function toast(t){let e=$("#toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),2400)}function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function renderChat(){let h=$("#messages");if(!state.messages.length){h.innerHTML='<div class="welcome"><div class="orb">О</div><h2>Чем могу помочь?</h2><p>Я — Оракул, твой личный помощник. Это рабочая основа приложения. Подключение ИИ будет следующим этапом.</p><div class="suggestions"><button class="suggestion" data-p="Помоги придумать идею для трека">Идея для трека</button><button class="suggestion" data-p="Составь план на неделю">План на неделю</button><button class="suggestion" data-p="С чего начать изучение ИИ?">Изучать ИИ</button></div></div>';h.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{$("#prompt").value=b.dataset.p;$("#prompt").focus()});return}h.innerHTML=state.messages.map(m=>'<div class="msg '+m.role+'"><div class="sender">'+(m.role==="user"?"ВЫ":"ОРАКУЛ · ЛОКАЛЬНЫЙ РЕЖИМ")+'</div>'+esc(m.text)+'</div>').join("");h.scrollTop=h.scrollHeight}function add(role,text){state.messages.push({role,text,at:new Date().toISOString()});state.messages=state.messages.slice(-300);persist();renderChat()}function send(){let p=$("#prompt"),t=p.value.trim();if(!t)return;add("user",t);p.value="";p.style.height="";add("assistant","Сообщение сохранено. ИИ пока не подключён. Следующим этапом подключим языковую модель через сервер, чтобы API-ключ оставался в безопасности. Не вставляй секретные ключи в этот код.")}function view(v){$("#chat").classList.toggle("hidden",v!=="chat");$("#library").classList.toggle("hidden",v!=="library");$("#heading").textContent=v==="chat"?"Диалог":"Библиотека";document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.view===v));$("#sidebar").classList.remove("open");renderNotes()}function renderNotes(){let q=$("#search").value.toLowerCase(),a=state.notes.filter(n=>(n.title+" "+n.body).toLowerCase().includes(q)).sort((x,y)=>y.updated.localeCompare(x.updated));$("#notes").innerHTML=a.length?a.map(n=>'<article class="note" data-id="'+n.id+'"><strong>'+esc(n.title)+'</strong><p>'+esc(n.body||"Пустая заметка")+'</p><small>'+new Date(n.updated).toLocaleString("ru-RU")+'</small></article>').join(''):'<div class="empty">'+(q?"Ничего не найдено.":"Библиотека пуста. Создай первую заметку.")+'</div>';$("#notes").querySelectorAll("[data-id]").forEach(c=>c.onclick=()=>openNote(c.dataset.id))}function openNote(id=null){editing=id;let n=state.notes.find(x=>x.id===id);$("#ntitle").value=n?.title||"";$("#nbody").value=n?.body||"";$("#del").classList.toggle("hidden",!n);$("#editor").classList.remove("hidden");$("#ntitle").focus()}function closeNote(){$("#editor").classList.add("hidden");editing=null}function saveNote(){let now=new Date().toISOString(),title=$("#ntitle").value.trim()||"Без названия",body=$("#nbody").value.trim();if(editing){let n=state.notes.find(x=>x.id===editing);if(n)Object.assign(n,{title,body,updated:now})}else state.notes.push({id:crypto.randomUUID?.()||String(Date.now()),title,body,created:now,updated:now});persist();closeNote();renderNotes();toast("Заметка сохранена")}document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>view(b.dataset.view));$("#send").onclick=send;$("#prompt").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}};$("#prompt").oninput=e=>{e.target.style.height="auto";e.target.style.height=Math.min(e.target.scrollHeight,180)+"px"};$("#menu").onclick=()=>$("#sidebar").classList.toggle("open");$("#newnote").onclick=()=>openNote();$("#save").onclick=saveNote;$("#cancel").onclick=closeNote;$("#search").oninput=renderNotes;$("#del").onclick=()=>{if(editing&&confirm("Удалить заметку?")){state.notes=state.notes.filter(n=>n.id!==editing);persist();closeNote();renderNotes()}};$("#export").onclick=()=>{let b=new Blob([JSON.stringify({app:"Oracle",version:1,...state},null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="oracle-backup.json";a.click();URL.revokeObjectURL(u)};$("#import").onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(confirm("Импорт заменит текущие сообщения и заметки?")){state={messages:Array.isArray(d.messages)?d.messages:[],notes:Array.isArray(d.notes)?d.notes:[]};persist();renderChat();renderNotes();toast("Данные импортированы")}}catch{toast("Файл резервной копии не прочитан")}e.target.value=""};r.readAsText(f)};renderChat();renderNotes();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{})})();
+export default async function handler(req, res) {
+if (req.method !== “POST”) {
+return res.status(405).json({ error: “Method not allowed” });
+}
+
+try {
+const { message } = req.body || {};
+
+if (typeof message !== "string" || !message.trim()) {
+  return res.status(400).json({ error: "Введите сообщение" });
+}
+const apiKey = process.env.OPENROUTER_API_KEY;
+if (!apiKey) {
+  return res.status(500).json({ error: "API key is not configured" });
+}
+const response = await fetch(
+  "https://openrouter.ai/api/v1/chat/completions",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "nvidia/nemotron-3-ultra:free",
+      messages: [
+        {
+          role: "system",
+          content: "Ты Оракул — дружелюбный русскоязычный ИИ-помощник. Отвечай ясно и по делу."
+        },
+        {
+          role: "user",
+          content: message.trim()
+        }
+      ]
+    })
+  }
+);
+const data = await response.json();
+if (!response.ok) {
+  return res.status(502).json({
+    error: "Ошибка сервиса ИИ",
+    details: data.error?.message || "Не удалось получить ответ от модели"
+  });
+}
+return res.status(200).json({
+  reply: data.choices?.[0]?.message?.content || "Не удалось получить ответ."
+});
+
+} catch (error) {
+return res.status(500).json({
+error: “Внутренняя ошибка сервера”
+});
+}
+}
