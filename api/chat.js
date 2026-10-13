@@ -27,7 +27,7 @@ export default async function handler(req, res) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "nvidia/nemotron-3-ultra:free",
+          model: "openrouter/free",
           messages: [
             {
               role: "system",
