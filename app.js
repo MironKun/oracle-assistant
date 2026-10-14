@@ -26,7 +26,7 @@
   let notes = [];
   let activeNote = null;
   let busy = false;
-
+let assistantStatus = "";
   const storageKey = (id) => "oracle_v1_user_" + id;
 
   function notice(text) {
@@ -67,13 +67,36 @@
     auth?.classList.remove("hidden");
   }
 
-  function renderMessages() {
-    const box = $("#messages");
-    if (!box) return;
+ 
+function renderMessages() {
+  const box = $("#messages");
+  if (!box) return;
 
-    if (!messages.length) {
-      box.innerHTML = '<div class="welcome"><div class="orb">О</div><h2>Чем могу помочь?</h2><p>Я — Оракул, твой личный ИИ-помощник.</p></div>';
-      return;
+  if (!messages.length && !assistantStatus) {
+    box.innerHTML =
+      '<div class="welcome"><div class="orb">О</div><h2>Чем могу помочь?</h2><p>Я — Оракул, твой личный ИИ-помощник.</p></div>';
+    return;
+  }
+
+  box.innerHTML = messages.map(m =>
+    '<div class="msg ' + (m.role === "user" ? "user" : "assistant") +
+    '"><div class="sender">' + (m.role === "user" ? "ВЫ" : "ОРАКУЛ") +
+    "</div>" + escapeHTML(m.text) + "</div>"
+  ).join("");
+
+  if (assistantStatus) {
+    box.insertAdjacentHTML(
+      "beforeend",
+      '<div class="oracle-status" role="status" aria-live="polite">' +
+        '<span class="oracle-dots"><i></i><i></i><i></i></span>' +
+        '<span>' + escapeHTML(assistantStatus) + '</span>' +
+      '</div>'
+    );
+  }
+
+  box.scrollTop = box.scrollHeight;
+}
+
     }
 
     box.innerHTML = messages.map(m =>
