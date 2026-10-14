@@ -235,10 +235,11 @@ function renderMessages() {
     if (!message) return;
 
     input.value = "";
-    busy = true;
-    if (button) button.disabled = true;
+busy = true;
+assistantStatus = "Оракул думает…";
+if (button) button.disabled = true;
 
-    addMessage("user", message);
+addMessage("user", message);
     const lower = message.toLowerCase();
 
     try {
