@@ -111,3 +111,145 @@
 .auth-footnote {
   font-size: 11px;
 }
+
+/* ===== ORACLE: фиксированный интерфейс ===== */
+
+:root {
+  --oracle-sidebar-width: 244px;
+  --oracle-bg: #101113;
+  --oracle-panel: #191b20;
+  --oracle-border: #2b2e35;
+  --oracle-text: #f3f4f6;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--oracle-bg);
+  color: var(--oracle-text);
+}
+
+/* Не даём внешней странице прокручиваться */
+#app,
+.app,
+.app-container,
+.layout,
+.main-layout {
+  height: 100%;
+  min-height: 0;
+  max-height: 100dvh;
+}
+
+/* Боковая панель */
+.sidebar,
+#sidebar,
+.side-menu,
+aside {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Основная область чата */
+.chat,
+.chat-container,
+.chat-area,
+.chat-layout,
+main {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Прокрутка только у списка сообщений */
+.messages,
+.message-list,
+.chat-messages,
+#messages,
+#chat-messages {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+/* Поле ввода остаётся внизу */
+.chat-input,
+.input-area,
+.composer,
+.chat-form,
+#chat-form {
+  flex-shrink: 0;
+}
+
+/* Мобильная версия */
+@media (max-width: 700px) {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  #app,
+  .app,
+  .app-container,
+  .layout,
+  .main-layout {
+    height: 100dvh;
+    max-height: 100dvh;
+    min-height: 0;
+  }
+
+  .sidebar,
+  #sidebar,
+  .side-menu,
+  aside {
+    max-width: 85vw;
+    overscroll-behavior: contain;
+  }
+
+  .chat,
+  .chat-container,
+  .chat-area,
+  .chat-layout,
+  main {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .messages,
+  .message-list,
+  .chat-messages,
+  #messages,
+  #chat-messages {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .messages::-webkit-scrollbar,
+  .message-list::-webkit-scrollbar,
+  .chat-messages::-webkit-scrollbar,
+  #messages::-webkit-scrollbar,
+  #chat-messages::-webkit-scrollbar {
+    display: none;
+  }
+
+  textarea,
+  input {
+    font-size: 16px;
+  }
+
+  button {
+    touch-action: manipulation;
+  }
+}
