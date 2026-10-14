@@ -879,3 +879,61 @@ main > footer {
     opacity: 0.8;
   }
 }
+
+/* Дополнительные исправления интерфейса Оракула */
+
+/* Индикатор не должен сжиматься или перекрывать сообщения */
+.oracle-status {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  max-width: min(88%, 760px);
+  overflow-wrap: anywhere;
+}
+
+/* Состояние кнопки отправки */
+#send:disabled,
+.auth-submit:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* Поле ввода не выходит за пределы экрана */
+.composer {
+  min-width: 0;
+}
+
+#prompt {
+  box-sizing: border-box;
+}
+
+/* Мобильное меню и затемнение фона */
+@media (max-width: 760px) {
+  #sidebar {
+    will-change: transform;
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  #sidebarBackdrop {
+    padding: 0;
+    cursor: default;
+  }
+
+  .oracle-status {
+    max-width: 88%;
+    padding: 11px 14px;
+  }
+}
+
+/* Не показываем затемнение, когда меню закрыто */
+@media (prefers-reduced-motion: reduce) {
+  #sidebar {
+    transition: none !important;
+  }
+
+  #sidebarBackdrop {
+    transition: none !important;
+  }
+}
