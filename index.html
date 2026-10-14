@@ -1,95 +1,108 @@
-```html
 <!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#111214">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#171717">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Оракул">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
   <title>Оракул</title>
 </head>
 <body>
-
   <section id="auth" class="auth-screen">
     <div class="auth-card">
       <div class="auth-logo">О</div>
       <h1>Оракул</h1>
       <p class="auth-subtitle">Твоё личное пространство</p>
-
       <div class="auth-tabs">
         <button id="loginTab" class="auth-tab active" type="button">Вход</button>
         <button id="registerTab" class="auth-tab" type="button">Регистрация</button>
       </div>
-
       <form id="authForm">
         <label for="authEmail">Электронная почта</label>
-        <input id="authEmail" type="email" autocomplete="email"
-          placeholder="name@example.com" required>
-
+        <input id="authEmail" type="email" autocomplete="email" placeholder="name@example.com" required>
         <label for="authPassword">Пароль</label>
-        <input id="authPassword" type="password"
-          autocomplete="current-password" minlength="6"
-          placeholder="Не менее 6 символов" required>
-
-        <button id="authSubmit" class="auth-submit" type="submit">
-          Войти
-        </button>
+        <input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Не менее 6 символов" required>
+        <button id="authSubmit" class="auth-submit" type="submit">Войти</button>
       </form>
-
       <p id="authMessage" class="auth-message" role="status"></p>
-      <p class="auth-footnote">
-        После входа сможем подключить твою облачную память.
-      </p>
+      <p class="auth-footnote">После входа доступна облачная память.</p>
     </div>
   </section>
 
   <div id="app" class="layout hidden">
-    <aside id="sidebar">
-      <button id="sidebarBackdrop" type="button"
-  aria-label="Закрыть меню"></button>
-      <div class="brand">
-        <b>О</b>
-        <span>
-          <strong>Оракул</strong>
-          <small>персональный помощник</small>
-        </span>
+    <button id="sidebarBackdrop" class="sidebar-backdrop" type="button" aria-label="Закрыть меню"></button>
+
+    <aside id="sidebar" aria-label="Боковое меню">
+      <div class="sidebar-main">
+        <div class="brand">
+          <b>О</b>
+          <span>
+            <strong>Оракул</strong>
+            <small>персональный помощник</small>
+          </span>
+        </div>
+
+        <button id="newchat" class="new-chat" type="button">
+          <span>＋</span> Новый чат
+        </button>
+
+        <label class="history-search">
+          <span>⌕</span>
+          <input id="chatSearch" type="search" placeholder="Поиск по чатам" autocomplete="off">
+        </label>
+
+        <div class="sidebar-label">Недавние</div>
+        <nav id="chatHistory" class="chat-history" aria-label="История чатов"></nav>
+
+        <div class="sidebar-nav">
+          <button class="nav" data-view="library" type="button">
+            <span>▤</span> Библиотека
+          </button>
+        </div>
       </div>
 
-      <button class="nav active" data-view="chat">◌ Диалог</button>
-      <button class="nav" data-view="library">▤ Библиотека</button>
-
       <div class="bottom">
-        <small id="accountEmail"></small>
-        <button id="export" type="button">Экспорт данных</button>
-        <label>Импорт данных
+        <div class="account-row">
+          <div class="account-avatar">О</div>
+          <div class="account-meta">
+            <strong>Оракул</strong>
+            <small id="accountEmail"></small>
+          </div>
+        </div>
+
+        <button id="export" type="button"><span>⇩</span> Экспорт данных</button>
+        <label class="import-button">
+          <span>⇧</span> Импорт данных
           <input id="import" type="file" accept="application/json" hidden>
         </label>
-        <button id="logout" type="button">Выйти из аккаунта</button>
+        <button id="logout" type="button"><span>↪</span> Выйти из аккаунта</button>
         <small id="syncStatus">Локальное хранение</small>
       </div>
     </aside>
 
     <main>
       <header>
-        <button id="menu" type="button">☰</button>
-        <div>
+        <button id="menu" type="button" aria-label="Открыть меню" aria-expanded="false">☰</button>
+        <div class="header-title">
           <small>ВАШЕ ПРОСТРАНСТВО</small>
-          <h1 id="heading">Диалог</h1>
+          <h1 id="heading">Новый чат</h1>
         </div>
-        <span class="pill">● Оракул</span>
+        <span class="pill"><i></i> Оракул</span>
       </header>
 
       <section id="chat" class="view">
         <div id="messages"></div>
-        <div class="composer">
-          <textarea id="prompt" rows="1"
-            placeholder="Напиши Оракулу…"></textarea>
-          <button id="send" type="button">↑</button>
+        <div class="composer-wrap">
+          <div class="composer">
+            <textarea id="prompt" rows="1" aria-label="Сообщение" placeholder="Напиши Оракулу…"></textarea>
+            <button id="send" type="button" aria-label="Отправить сообщение">↑</button>
+          </div>
+          <p class="hint">Оракул может ошибаться. Проверяй важную информацию.</p>
         </div>
-        <p class="hint">
-          Личный ИИ-помощник · История и память будут доступны после настройки синхронизации.
-        </p>
       </section>
 
       <section id="library" class="view hidden">
@@ -101,13 +114,12 @@
           <button id="newnote" type="button">＋ Новая заметка</button>
         </div>
 
-        <input id="search" placeholder="Поиск по заметкам…">
+        <input id="search" placeholder="Поиск по заметкам…" aria-label="Поиск по заметкам">
         <div id="notes"></div>
 
         <div id="editor" class="hidden">
           <input id="ntitle" placeholder="Название заметки">
-          <textarea id="nbody" rows="8"
-            placeholder="Текст, идеи, ссылки…"></textarea>
+          <textarea id="nbody" rows="8" placeholder="Текст, идеи, ссылки…"></textarea>
           <div class="actions">
             <button id="del" class="danger" type="button">Удалить</button>
             <span></span>
@@ -121,12 +133,9 @@
     </main>
   </div>
 
-  <div id="toast"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
 
-  <!-- Публичные настройки добавим после настройки app.js.
-       Секретные ключи здесь размещать нельзя. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
-```
