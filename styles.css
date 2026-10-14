@@ -819,3 +819,63 @@ main > footer {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Индикатор состояния Оракула */
+
+.oracle-status {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  max-width: 88%;
+  padding: 12px 16px;
+  border: 1px solid #353841;
+  border-radius: 16px;
+  border-bottom-left-radius: 5px;
+  background: #202228;
+  color: #bfc3d0;
+  font-size: 13px;
+  line-height: 1.5;
+  animation: messageAppear 180ms ease-out;
+}
+
+.oracle-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.oracle-dots i {
+  width: 5px;
+  height: 5px;
+  display: block;
+  border-radius: 50%;
+  background: #aab8f5;
+  animation: oraclePulse 1s ease-in-out infinite;
+}
+
+.oracle-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.oracle-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes oraclePulse {
+  0%, 60%, 100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oracle-dots i {
+    animation: none;
+    opacity: 0.8;
+  }
+}
