@@ -3,7 +3,7 @@
   const $ = (selector) => document.querySelector(selector);
 
   const SUPABASE_URL = "https://wglsqfvoolkxwozvaiod.supabase.co";
-  const SUPABASE_PUBLIC_KEY = sb_publishable_iewOa0krvq-Ekcex8R3Rkg_3XdiP8ne;
+  const SUPABASE_PUBLIC_KEY = "sb_publishable_iewOa0krvq-Ekcex8R3Rkg_3XdiP8ne";
 
   const authScreen = $("#auth");
   const appScreen = $("#app");
