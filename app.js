@@ -237,15 +237,29 @@
           content: m.text
         }));
 
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message,
-          memory: state.notes.map((n) => n.text),
-          history
-        })
-      });
+      const { data: sessionData, error: sessionError } =
+  await client.auth.getSession();
+
+if (sessionError) throw sessionError;
+
+const accessToken = sessionData.session?.access_token;
+
+if (!accessToken) {
+  throw new Error("Сессия не найдена. Войди в аккаунт заново.");
+}
+
+const response = await fetch("/api/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${accessToken}`
+  },
+  body: JSON.stringify({
+    message,
+    memory: state.notes.map((n) => n.text),
+    history
+  })
+});
 
       const data = await response.json();
 
