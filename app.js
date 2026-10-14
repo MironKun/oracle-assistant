@@ -1,4 +1,4 @@
-```javascript
+"use strict";
 (() => {
   "use strict";
 
@@ -533,4 +533,3 @@
 
   init();
 })();
-```
