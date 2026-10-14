@@ -532,4 +532,31 @@
   }
 
   init();
+  
+/* Мобильное меню Оракула */
+const oracleMenuButton = document.querySelector("#menu");
+const oracleSidebarBackdrop = document.querySelector("#sidebarBackdrop");
+
+if (oracleMenuButton && !oracleMenuButton.dataset.menuReady) {
+  oracleMenuButton.dataset.menuReady = "true";
+
+  oracleMenuButton.addEventListener("click", () => {
+    document.body.classList.toggle("menu-open");
+  });
+}
+
+if (oracleSidebarBackdrop && !oracleSidebarBackdrop.dataset.menuReady) {
+  oracleSidebarBackdrop.dataset.menuReady = "true";
+
+  oracleSidebarBackdrop.addEventListener("click", () => {
+    document.body.classList.remove("menu-open");
+  });
+}
+
+document.querySelectorAll(".nav").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.body.classList.remove("menu-open");
+  });
+});
+
 })();
