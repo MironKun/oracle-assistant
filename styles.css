@@ -689,3 +689,72 @@ main > footer {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* === Оракул: оформление диалога === */
+
+#messages {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px clamp(16px, 5vw, 56px);
+  scroll-behavior: smooth;
+}
+
+/* Общая карточка сообщения */
+.message {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  max-width: min(78%, 760px);
+  padding: 13px 17px;
+  border-radius: 18px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 12%);
+}
+
+/* Твои сообщения — справа */
+.message.user {
+  align-self: flex-end;
+  margin-left: auto;
+  color: #f5f7ff;
+  background: #343c55;
+  border: 1px solid #46516f;
+  border-bottom-right-radius: 5px;
+}
+
+/* Ответы Оракула — слева */
+.message.assistant {
+  align-self: flex-start;
+  margin-right: auto;
+  color: #e9eaf0;
+  background: #202228;
+  border: 1px solid #34363e;
+  border-bottom-left-radius: 5px;
+}
+
+/* Имя собеседника */
+.message .role,
+.message .message-role {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  opacity: 0.72;
+}
+
+/* Не растягивать сообщения на весь экран телефона */
+@media (max-width: 760px) {
+  #messages {
+    gap: 15px;
+    padding: 18px 12px;
+  }
+
+  .message {
+    max-width: 88%;
+    padding: 11px 14px;
+    border-radius: 16px;
+  }
+}
