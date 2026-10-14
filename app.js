@@ -307,7 +307,8 @@ addMessage("user", message);
       if (!response.ok) {
         throw new Error(data.details || data.error || ("Ошибка сервера " + response.status));
       }
-
+assistantStatus = "Оракул отвечает…";
+renderMessages();
       const reply = data.reply || "ИИ вернул пустой ответ.";
       addMessage("assistant", reply);
 
@@ -321,8 +322,12 @@ addMessage("user", message);
     } catch (e) {
       addMessage("assistant", "Ошибка: " + (e.message || "Неизвестная ошибка"));
     } finally {
-      busy = false;
-      if (button) button.disabled = false;
+     finally {
+  assistantStatus = "";
+  busy = false;
+  if (button) button.disabled = false;
+  renderMessages();
+}
     }
   }
 
