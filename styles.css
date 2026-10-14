@@ -1,1 +1,113 @@
 *{box-sizing:border-box}body{margin:0;background:#111214;color:#f3f4f6;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea{font:inherit}button,label{cursor:pointer}.layout{display:flex;min-height:100dvh}aside{width:245px;flex-shrink:0;background:#151619;border-right:1px solid #2b2e35;padding:24px 16px;display:flex;flex-direction:column;gap:9px}.brand{display:flex;align-items:center;gap:11px;padding:0 8px 26px}.brand b{width:38px;height:38px;border:1px solid #777;border-radius:12px;display:grid;place-items:center;font-size:22px}.brand strong,.brand small{display:block}.brand small{font-size:11px;color:#969ba6;margin-top:4px}.nav{background:none;border:0;color:#b5b8c1;text-align:left;padding:13px;border-radius:10px}.nav.active,.nav:hover{background:#24262c;color:white}.bottom{margin-top:auto;border-top:1px solid #2b2e35;padding:15px 8px;display:grid;gap:12px;color:#a7abb5}.bottom button,.bottom label{background:none;border:0;color:#d5d7dc;text-align:left;padding:0}.bottom small{color:#969ba6}main{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100dvh}header{height:84px;border-bottom:1px solid #2b2e35;display:flex;align-items:center;gap:14px;padding:0 30px}header small{font-size:10px;letter-spacing:1px;color:#969ba6}h1{font-size:20px;margin:5px 0 0}#menu{display:none}.pill{margin-left:auto;border:1px solid #2b2e35;border-radius:30px;padding:8px 10px;font-size:11px;color:#bfc2cb}.view{width:min(100%,950px);margin:0 auto;flex:1;display:flex;flex-direction:column;padding:22px 28px}.hidden{display:none!important}#messages{flex:1;overflow:auto;display:flex;flex-direction:column;gap:15px;padding:12px 0 24px}.welcome{margin:auto;text-align:center;max-width:500px;padding:35px 10px}.orb{width:62px;height:62px;border:1px solid #626774;border-radius:50%;display:grid;place-items:center;margin:0 auto 20px;font-size:27px}.welcome h2{font-size:25px;font-weight:500}.welcome p,.libhead p{color:#969ba6;line-height:1.7}.suggestions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}.suggestion{border:1px solid #2b2e35;border-radius:30px;background:#181a1e;color:#ddd;padding:10px}.msg{max-width:80%;padding:14px 16px;border-radius:14px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}.user{align-self:flex-end;background:#e8e9ed;color:#16171a}.assistant{align-self:flex-start;background:#181a1e;border:1px solid #2b2e35}.sender{font-size:10px;opacity:.6;margin-bottom:5px}.composer{display:flex;align-items:flex-end;gap:10px;background:#1c1e22;border:1px solid #343740;border-radius:17px;padding:10px 10px 10px 15px}.composer textarea{flex:1;resize:none;max-height:180px;min-height:28px;border:0;outline:0;background:transparent;color:white;line-height:1.5}.composer button,#newnote,#save{background:#e8e9ed;color:#16171a;border:0;border-radius:10px;padding:10px 14px;font-size:20px}.hint,footer{color:#777d87;font-size:10px;text-align:center}footer{padding:15px;border-top:1px solid #2b2e35}.libhead{display:flex;justify-content:space-between;align-items:center;gap:16px}h2{font-size:22px;font-weight:600;margin:0}#newnote,#save{font-size:13px;white-space:nowrap}#search{margin:22px 0 14px;width:100%;padding:13px;background:#181a1e;border:1px solid #2b2e35;border-radius:10px;color:white}#notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}.note{background:#181a1e;border:1px solid #2b2e35;border-radius:12px;padding:15px;cursor:pointer;white-space:pre-wrap;overflow-wrap:anywhere}.note p{color:#a1a5af;line-height:1.5;font-size:12px}.note small{color:#777d87}#editor{margin-top:18px;background:#181a1e;border:1px solid #2b2e35;border-radius:13px;padding:15px;display:grid;gap:10px}#editor input,#editor textarea{background:#111214;border:1px solid #2b2e35;color:white;border-radius:9px;padding:12px}.actions{display:flex;gap:8px;align-items:center}.actions span{flex:1}.actions button{padding:10px;border:1px solid #343740;border-radius:9px;background:#202228;color:white}.actions .danger{background:#321d20;color:#ffb8be}.empty{color:#969ba6;padding:20px 0}#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#eee;color:#111;border-radius:10px;opacity:0;transition:.2s;pointer-events:none}#toast.show{opacity:1}@media(max-width:700px){aside{position:fixed;z-index:5;top:0;bottom:0;left:0;transform:translateX(-105%);transition:.2s;box-shadow:0 0 60px #0008}aside.open{transform:translateX(0)}#menu{display:block;background:none;color:white;border:1px solid #333;border-radius:8px;padding:8px}header{height:74px;padding:0 14px}.view{padding:18px 13px}.msg{max-width:92%}.libhead{align-items:flex-start;flex-direction:column}#notes{grid-template-columns:1fr}.pill{font-size:0}}
+.auth-screen {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #111214;
+}
+
+.auth-card {
+  width: min(100%, 390px);
+  padding: 28px;
+  background: #181a1e;
+  border: 1px solid #2b2e35;
+  border-radius: 18px;
+}
+
+.auth-logo {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 18px;
+  border: 1px solid #777;
+  border-radius: 17px;
+  font-size: 28px;
+}
+
+.auth-card h1,
+.auth-subtitle {
+  text-align: center;
+}
+
+.auth-card h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.auth-subtitle,
+.auth-footnote {
+  color: #969ba6;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 24px 0;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 11px;
+  border: 1px solid #343740;
+  border-radius: 9px;
+  color: #ddd;
+  background: #111214;
+}
+
+.auth-tab.active {
+  background: #e8e9ed;
+  color: #16171a;
+}
+
+#authForm {
+  display: grid;
+  gap: 10px;
+}
+
+#authForm label {
+  color: #c4c7cf;
+  margin-top: 5px;
+}
+
+#authForm input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #343740;
+  border-radius: 9px;
+  outline: none;
+  background: #111214;
+  color: #fff;
+}
+
+#authForm input:focus {
+  border-color: #888d99;
+}
+
+.auth-submit {
+  margin-top: 10px;
+  padding: 13px;
+  border: 0;
+  border-radius: 9px;
+  background: #e8e9ed;
+  color: #16171a;
+  font-weight: 600;
+}
+
+.auth-submit:disabled {
+  opacity: .6;
+}
+
+.auth-message {
+  min-height: 20px;
+  color: #d8dbe3;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.auth-footnote {
+  font-size: 11px;
+}
